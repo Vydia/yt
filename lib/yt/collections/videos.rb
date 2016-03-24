@@ -10,6 +10,7 @@ module Yt
     class Videos < Base
       def where(requirements = {})
         @published_before = nil
+        @halt_list = false
         super
       end
 
@@ -77,7 +78,7 @@ module Yt
       def next_page
         super.tap do |items|
           halt_list if use_list_endpoint? && items.empty? && @page_token.nil?
-          add_offset_to(items) if !use_list_endpoint? && @page_token.nil? && videos_params[:order] == 'date'
+          add_offset_to(items) if !use_list_endpoint? && videos_params[:order] == 'date' && videos_params[:channel_id]
         end
       end
 
@@ -86,9 +87,15 @@ module Yt
       # that limit, the query is restarted with a publishedBefore filter in
       # case there are more videos to be listed for a channel
       def add_offset_to(items)
-        if items.count == videos_params[:max_results]
+        @fetched_items ||= 0
+        if (@fetched_items += items.count) >= 500
           last_published = items.last['snippet']['publishedAt']
-          @page_token, @published_before = '', last_published
+          last_published = DateTime.rfc3339(last_published) - 1.second
+          last_published = last_published.strftime '%FT%T.999Z'
+          @page_token, @published_before, @fetched_items = '', last_published, 0
+        elsif (1...50) === @last_index % 50
+          @halt_list, @page_token = true, nil
+          @last_index += items.size
         end
       end
 

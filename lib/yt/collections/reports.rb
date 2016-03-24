@@ -42,6 +42,7 @@ module Yt
         search: 'YT_SEARCH',
         google: 'GOOGLE_SEARCH',
         notification: 'NOTIFICATION',
+        playlist_page: 'YT_PLAYLIST_PAGE',
         info_card: 'INFO_CARD'
       }
 
@@ -52,6 +53,8 @@ module Yt
         embedded: 'EMBEDDED',
         other: 'YT_OTHER',
         external_app: 'EXTERNAL_APP',
+        search: 'SEARCH', # undocumented but returned by the API
+        browse: 'BROWSE', # undocumented but returned by the API
         mobile: 'MOBILE' # only present for data < September 10, 2013
       }
 

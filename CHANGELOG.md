@@ -6,6 +6,98 @@ For more information about changelogs, check
 [Keep a Changelog](http://keepachangelog.com) and
 [Vandamme](http://tech-angels.github.io/vandamme).
 
+## 0.25.25 - 2016-03-24
+
+* [FEATURE] Add Yt::CommentThread resource.
+
+## 0.25.24 - 2016-03-02
+
+* [BUGFIX] When `videos.where(..)` returns more than one page, don’t retain the items for the next request.
+
+## 0.25.23 - 2016-02-23
+
+* [IMPROVEMENT] Retry 3 times after a server error, to bypass temporary glitches by YouTube.
+* [IMPROVEMENT] Don’t combine forMine and publishedBefore parameters in Search#list since YouTube does not support this anymore.
+
+## 0.25.22 - 2016-02-04
+
+* [IMPROVEMENT] Deal with channels with more than 500 videos in a better way
+
+## 0.25.21 - 2016-02-04
+
+* [BUGFIX] Add required 'require' to have `.with_indifferent_access` in geography
+
+## 0.25.20 - 2016-01-24
+
+* [FEATURE] Add (undocumented) playback location dimensions SEARCH and BROWSE
+
+## 0.25.19 - 2016-01-15
+
+* [FEATURE] Add `:group_items` to Yt::VideoGroup (list items of a group)
+* [FEATURE] Add `:includes(:video)` to `Yt::VideoGroup#group_items` (eagerly loads all the videos)
+
+## 0.25.18 - 2016-01-08
+
+* [FEATURE] Add Yt::COUNTRIES and Yt::US_STATES
+* [FEATURE] Add YouTube Analytics Video Groups
+* [FEATURE] Add `:video_groups` to Yt::Account (list video-groups created by an account)
+* [FEATURE] Add `:video_groups` to Yt::ContentOwner (list video-groups on behalf of a content owner)
+* [FEATURE] Add reports by video-group
+
+## 0.25.17 - 2016-01-05
+
+* [FEATURE] Add `:videos` to Yt::ContentOwner to list videos in network with a content owner
+
+## 0.25.16 - 2015-12-19
+
+* [FEATURE] Add `access_token_was_refreshed` to Yt::Account
+
+## 0.25.15 - 2015-12-17
+
+* [FEATURE] Add `revoke_access` to Yt::Account
+
+## 0.25.14 - 2015-12-16
+
+* [ENHANCEMENT] Add `:display_name` to each content owner returned by account.content_owners
+* [BUGFIX] Don’t raise error when raising MissingAuth without any scope
+
+## 0.25.13 - 2015-12-04
+
+* [BUGFIX] Fix previous fix to Video#update with publishAt (typo)
+
+## 0.25.12 - 2015-12-03
+
+* [BUGFIX] Fix Video#update with publishAt
+
+## 0.25.11 - 2015-11-05
+
+* [ENHANCEMENT] Add "youtube.com/v/..." as possible URL for YouTube videos
+* [ENHANCEMENT] Add eager loading to channel.playlists
+
+## 0.25.10 - 2015-10-29
+
+* [FEATURE] Add Playlist#item_count
+
+## 0.25.9 - 2015-10-07
+
+* [ENHANCEMENT] Add newly available traffic source: "Playlist page"
+
+## 0.25.8 - 2015-09-10
+
+* [FEATURE] Retry the same request up to 3 times if YouTube responds with "quotaExceeded"
+
+## 0.25.7 - 2015-09-10
+
+* [FEATURE] Retry the same request once if YouTube responds with "quotaExceeded"
+
+## 0.25.6 - 2015-09-03
+
+* [FEATURE] New channel/video reports: `videos_added_to_playlists`, `videos_removed_from_playlists`.
+
+## 0.25.5 - 2015-08-12
+
+* [BUGIX] Correctly parse the YouTube response when requesting a refresh token with the wrong credentials.
+
 ## 0.25.4 - 2015-07-27
 
 * [FEATURE] Add `channel.related_playlist` and `account.related_playlists` to access "Liked Videos", "Uploads", etc.

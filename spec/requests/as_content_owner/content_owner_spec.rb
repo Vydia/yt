@@ -14,6 +14,58 @@ describe Yt::ContentOwner, :partner do
     end
   end
 
+  describe '.videos' do
+    let(:video) { $content_owner.videos.where(order: 'viewCount').first }
+
+    specify 'returns the videos in network with the content owner with their tags and category ID' do
+      expect(video).to be_a Yt::Video
+      expect(video.tags).not_to be_empty
+      expect(video.category_id).not_to be_nil
+    end
+
+    describe '.includes(:snippet)' do
+      let(:video) { $content_owner.videos.includes(:snippet).first }
+
+      specify 'eager-loads the *full* snippet of each video' do
+        expect(video.instance_variable_defined? :@snippet).to be true
+        expect(video.channel_title).to be
+        expect(video.snippet).to be_complete
+      end
+    end
+
+    describe '.includes(:statistics, :status)' do
+      let(:video) { $content_owner.videos.includes(:statistics, :status).first }
+
+      specify 'eager-loads the statistics and status of each video' do
+        expect(video.instance_variable_defined? :@statistics_set).to be true
+        expect(video.instance_variable_defined? :@status).to be true
+      end
+    end
+
+    describe '.includes(:content_details)' do
+      let(:video) { $content_owner.videos.includes(:content_details).first }
+
+      specify 'eager-loads the statistics of each video' do
+        expect(video.instance_variable_defined? :@content_detail).to be true
+      end
+    end
+  end
+
+  describe '.video_groups' do
+    let(:video_group) { $content_owner.video_groups.first }
+
+    specify 'returns the first video-group created by the account' do
+      expect(video_group).to be_a Yt::VideoGroup
+      expect(video_group.title).to be_a String
+      expect(video_group.item_count).to be_an Integer
+      expect(video_group.published_at).to be_a Time
+    end
+
+    specify 'allows to run reports against each video-group' do
+      expect(video_group.views).to be
+    end
+  end
+
   describe 'claims' do
     let(:asset_id) { ENV['YT_TEST_PARTNER_ASSET_ID'] }
     let(:video_id) { ENV['YT_TEST_PARTNER_CLAIMABLE_VIDEO_ID'] }

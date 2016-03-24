@@ -86,6 +86,7 @@ describe Yt::Channel, :device_app do
           # of results to test that we can overcome YouTube’s limitation of only
           # returning the first 500 results when ordered by date.
           expect(channel.videos.count).to be > 500
+          expect(channel.videos.count).to eq channel.videos.map(&:id).uniq.count
           expect(channel.videos.where(order: 'viewCount').count).to be 500
         end
 
@@ -95,6 +96,16 @@ describe Yt::Channel, :device_app do
           # returning the first 500 results when ordered by date.
           today = Date.today.beginning_of_day.iso8601(0)
           expect(channel.videos.where(published_before: today).count).to be > 500
+        end
+      end
+    end
+
+    describe '.playlists' do
+      describe '.includes(:content_details)' do
+        let(:playlist) { channel.playlists.includes(:content_details).first }
+
+        specify 'eager-loads the content details of each playlist' do
+          expect(playlist.instance_variable_defined? :@content_detail).to be true
         end
       end
     end
@@ -204,6 +215,8 @@ describe Yt::Channel, :device_app do
       expect{channel.subscribers_lost}.not_to raise_error
       expect{channel.favorites_added}.not_to raise_error
       expect{channel.favorites_removed}.not_to raise_error
+      expect{channel.videos_added_to_playlists}.not_to raise_error
+      expect{channel.videos_removed_from_playlists}.not_to raise_error
       expect{channel.estimated_minutes_watched}.not_to raise_error
       expect{channel.average_view_duration}.not_to raise_error
       expect{channel.average_view_percentage}.not_to raise_error
@@ -225,6 +238,8 @@ describe Yt::Channel, :device_app do
       expect{channel.subscribers_lost_on 3.days.ago}.not_to raise_error
       expect{channel.favorites_added_on 3.days.ago}.not_to raise_error
       expect{channel.favorites_removed_on 3.days.ago}.not_to raise_error
+      expect{channel.videos_added_to_playlists_on 3.days.ago}.not_to raise_error
+      expect{channel.videos_removed_from_playlists_on 3.days.ago}.not_to raise_error
       expect{channel.estimated_minutes_watched_on 3.days.ago}.not_to raise_error
       expect{channel.average_view_duration_on 3.days.ago}.not_to raise_error
       expect{channel.average_view_percentage_on 3.days.ago}.not_to raise_error
