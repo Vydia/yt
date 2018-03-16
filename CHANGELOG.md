@@ -6,6 +6,80 @@ For more information about changelogs, check
 [Keep a Changelog](http://keepachangelog.com) and
 [Vandamme](http://tech-angels.github.io/vandamme).
 
+## 0.32.1 - 2017-08-14
+
+* [FEATURE] Add `Yt::ContentOwner#bulk_report_jobs`
+* [FEATURE] Add `Yt::BulkReportJob#bulk_reports`
+
+## 0.32.0 - 2017-07-05
+
+**How to upgrade**
+
+If your code is expecting data from `reports` methods to always include historical data (the data from the period before joining), now you have to set `historical: true` specifically. It will not include historical data by default.
+
+* [IMPROVEMENT] Include historical data with `historical: true` option.
+
+## 0.31.2 - 2017-06-29
+
+* [BUGFIX] Return lifetime data correctly even when the channel joined content owner after a while since it's created.
+
+## 0.31.1 - 2017-06-03
+
+* [FEATURE] Add `by: :youtube_product` option for reports.
+* [FEATURE] Add `Yt::Collections::Reports::YOUTUBE_PRODUCTS` to list all YouTube products (KIDS, GAMING, etc) supported by YouTube Analytics API.
+* [FEATURE] Add more operating system dimensions to `Yt::Collections::Reports::OPERATING_SYSTEMS`.
+
+## 0.31.0 - 2017-06-02
+
+**How to upgrade**
+
+If your code calls `.uniques` it should be removed because this metric has been
+no longer supported by YouTube API as of [October 31, 2016](https://developers.google.com/youtube/analytics/revision_history#september-27-2016).
+
+* [REMOVAL] Remove `#uniques` method for channels, videos and video groups.
+
+## 0.30.1 - 2017-04-14
+
+* [IMPROVEMENT] Retry 3 times if YouTube responds with 503 Backend Error
+
+## 0.30.0 - 2017-03-17
+
+**How to upgrade**
+
+If your code uses `Yt::Models::Configuration` then you must use
+`Yt::Configuration` instead.
+
+Both `Yt::Configuration` and `Yt::Config` have been moved in a separate
+gem called `yt-support` that is required by default by the `yt` gem.
+
+* [REMOVAL] Remove `Yt::Models::Configuration` (renamed as `Yt::Configuration`)
+
+## 0.29.1 - 2017-02-26
+
+* [FEATURE] Add `Video#length` to show the duration as an ISO 8601 time.
+
+## 0.29.0 - 2017-02-17
+
+**How to upgrade**
+
+If your code uses `Yt::URL` then you must include the `yt-url` gem, since
+`Yt::URL` has been extracted into a separate repository.
+Please read the documentation of `Yt::URL` and notice that the `subscription`
+pattern has been dropped, so URLs such as the following will not be recognized
+anymore: `subscription_center?add_user=...`, `subscribe_widget?p=...`.
+
+Note that this also removes the option of initializing a resource by URL.
+You can achieve the same result with the `yt-url` gem, as detailed in its
+documentation.
+
+Finally note that this also remove the class `Yt::Description`. This class
+was private API, so this change should not affect developers.
+
+* [REMOVAL] Remove the option to initialize resources by URL.
+* [REMOVAL] Remove `Yt::Resource.username`
+* [REMOVAL] Remove `Yt::URL` (extracted into separate gem)
+* [REMOVAL] Remove `Yt::Description` (now simply a String).
+
 ## 0.28.5 - 2017-01-18
 
 * [BUGFIX] Don't crash when Yt::VideoGroup is initialized with a group of playlists.
