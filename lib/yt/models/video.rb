@@ -231,6 +231,10 @@ module Yt
       #   @return [Integer] the duration of the video (in seconds).
       delegate :duration, to: :content_detail
 
+      # @!attribute [r] duration
+      #   @return [String] the length of the video as an ISO 8601 time, HH:MM:SS.
+      delegate :length, to: :content_detail
+
       # @return [Boolean] whether the video is available in 3D.
       def stereoscopic?
         content_detail.dimension == '3d'
@@ -397,9 +401,6 @@ module Yt
 
       # @macro report_by_video_dimensions
       has_report :views, Integer
-
-      # @macro report_by_day
-      has_report :uniques, Integer
 
       # @macro report_by_video_dimensions
       has_report :estimated_minutes_watched, Integer
