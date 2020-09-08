@@ -14,7 +14,6 @@ module Yt
       end
 
       has_attribute :view_count, type: Integer
-      has_attribute :comment_count, type: Integer
       has_attribute :like_count, type: Integer
       has_attribute :dislike_count, type: Integer
       has_attribute :favorite_count, type: Integer
